@@ -2,7 +2,7 @@
 import numpy as np
 
 def main():
-    count = get_input()
+    count = get_count()
     
     times_worth_changing = 0
     show_display = count <= 100 # Showing more than 100 displays slows this down.
@@ -31,6 +31,15 @@ def run_porblem(show_display):
         return(True)
     else:
         return(False)
+
+def get_count():
+    while True:
+        count = get_input()
+        if count <= 10000000:
+            return count
+        else:
+            print("Running this over 10,000,000 iterations is really slow. Use a small number of iterations.")
+            print()
 
 def get_input():
     while True:
