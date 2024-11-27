@@ -38,7 +38,7 @@ def get_count():
         if count <= 10000000:
             return count
         else:
-            print("Running this over 10,000,000 iterations is really slow. Use a small number of iterations.")
+            print("Running this over 10,000,000 iterations is really slow. Use a smaller number of iterations.")
             print()
 
 def get_input():
