@@ -1,4 +1,4 @@
-# Python SandBox
+# Python Sandbox
 
 A series of scripts for learning about Python
 
