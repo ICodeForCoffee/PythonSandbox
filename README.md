@@ -2,7 +2,7 @@
 
 A series of scripts for learning about Python
 
-## DiceProbability.py - Dice Probability Graph
+## DiceProbability.py - Two Dice Probability Graph
 
 A program to generate a graph of the probability of rolling two dice
 
