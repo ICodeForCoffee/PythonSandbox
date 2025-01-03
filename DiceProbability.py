@@ -3,7 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def main():
-    dice_to_roll = get_input()
+    calculate_dice_rolls(10)
+    calculate_dice_rolls(100)
+    calculate_dice_rolls(1000)
+    calculate_dice_rolls(10000)
+    calculate_dice_rolls(100000)
+
+def calculate_dice_rolls(total_rolls):
     total_sum = 0
     
     dice_results = {
@@ -20,17 +26,16 @@ def main():
         12: 0,
     }
     
-    for count in range(dice_to_roll):
+    for count in range(total_rolls):
         dice1 = np.random.randint(1, 7)
         dice2 = np.random.randint(1, 7)
         roll = dice1 + dice2
         total_sum += roll
         dice_results[roll] += 1
 
-    average = total_sum/dice_to_roll
-    print(f"The average of all the dice rolls is {average}")
-    display_results(dice_results, dice_to_roll)
-    
+    average = total_sum/total_rolls
+    display_results(dice_results, total_rolls)
+
 def display_results(dice_results, total_rolls):
     xaxis = np.array([])
     yaxis = np.array([])
@@ -44,9 +49,5 @@ def display_results(dice_results, total_rolls):
     text = f"Result for {format(total_rolls, ',d')} rolls"
     plt.title(text)
     plt.show()
-    
-def get_input():
-    #I'm debating still if there will be an input on this one or we'll just graph it.
-    return 10000
 
 main()
