@@ -28,11 +28,12 @@ def main():
     difference_between_rolls = difference_total/times_to_test
     
     print(f"We rolled for advantage {times_to_test:,} times\n")
-    print(f"First let's treat the rolls as if they occured in order.")
-    print(f"Advantaged improved our results {precent_rolls_improved:.2f}% of the time")
-    print(f"Across all rolls we saw a +{advantage_improved_by:.2f} to rolls")
-    print(f"Across rolls were advantage helped we saw a +{advantage_improved_rolls_it_helped_by:.2f} to rolls\n")
-    print(f"However, if we treat the dice rolls as concurrent the average difference between the two dice is {difference_between_rolls:.2f}")
+    print(f"First let's treat the rolls as if they occurred in order.")
+    print(f"Advantaged improved our results {precent_rolls_improved:.2f}% of the time.")
+    print(f"Across all rolls we saw a +{advantage_improved_by:.2f} to rolls.")
+    print(f"Across rolls were advantage helped, we saw a +{advantage_improved_rolls_it_helped_by:.2f} to rolls.\n")
+    print(f"However, if we treat the dice rolls as if they occur concurrently,")
+    print(f"advantage improved our rolls by +{difference_between_rolls:.2f}.")
     
 def calculate_advantage():
     roll1 = np.random.randint(1, 21)
