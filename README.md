@@ -4,7 +4,7 @@ A series of scripts for learning about Python that calculate and do various thin
 
 ## DiceProbability.py - Two Dice Result Probability Graphs
 
-A program to generate a graph of the probability of rolling two dice for values of 10, 100, 1,000, and 10,000
+A program to generate a graph of the probability of rolling two dice for values of 10, 100, 1,000, and 10,000.
 
 ## Fibonacci.py - Fibonacci Number Generator
 
