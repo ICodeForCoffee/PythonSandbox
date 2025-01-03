@@ -1,4 +1,5 @@
 # Roll 2 dice and graph the results.
+import matplotlib.pyplot as plt
 import numpy as np
 
 def main():
@@ -31,11 +32,18 @@ def main():
     display_results(dice_results)
     
 def display_results(dice_results):
+    xaxis = np.array([])
+    yaxis = np.array([])
+    
     for roll in range(2, 13):
-        print(f"{roll}: {dice_results[roll]}")
+        xaxis = np.append(xaxis, roll)
+        yaxis = np.append(yaxis, dice_results[roll])
+    
+    plt.bar(xaxis, yaxis)
+    plt.show()
     
 def get_input():
     #I'm debating still if there will be an input on this one or we'll just graph it.
-    return 100
+    return 10000
 
 main()
