@@ -25,7 +25,6 @@ def run_porblem(show_display):
         print()
         print("Selected door", door_selectted)
         print("The prize is behond", door_with_prize)
-        
     
     if door_selectted == door_with_prize:
         return(True)
