@@ -46,8 +46,7 @@ def display_results(dice_results, total_rolls):
     
     plt.bar(xaxis, yaxis)
     plt.xlabel("Dice Result")
-    text = f"Result for {format(total_rolls, ',d')} rolls"
-    plt.title(text)
+    plt.title(f"Result for {total_rolls:,} rolls")
     plt.show()
 
 main()
