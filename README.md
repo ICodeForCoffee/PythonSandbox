@@ -24,6 +24,6 @@ Calculates how useful it is to roll a d20 with advantage is. Rolling with advant
 
 In real life, some players will throw the same day twice while other others will throw two different dice, and they might even throw those two dice at the same time. That means are two ways to look at probability here. First, we can treat the dice rolls as if they occur separately, meaning we look at how the second die improves the result based on what the result of the first die landed on. Second, we can treat the rolls as concurrent, which means that improvement is based on the lowest dice thrown between those two rolls. How we frame the question changes how we calculate the results of the improvement advantage gives.
 
-## RollWithAdvantage2.py - Roll With Advantage Graph
+## RollWithAdvantage2.py - Roll With Advantage, Graphed
 
 Graphs the possible outcomes of rolling with advantage and how much advantage that gives. Provides graphs for the probability of each roll, a graph of the improvement if you treat the dice as separate events, and a graph if you treat the dice as concurrent events.
