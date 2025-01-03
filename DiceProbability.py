@@ -16,21 +16,6 @@ def calculate_dice_rolls(total_rolls):
     for roll in range(2, 13):
             dice_results[roll] = 0
     
-    # dice_results = {
-    #     2: 0,
-    #     3: 0,
-    #     4: 0,
-    #     5: 0,
-    #     6: 0,
-    #     7: 0,
-    #     8: 0,
-    #     9: 0,
-    #     10: 0,
-    #     11: 0,
-    #     12: 0,
-    # }
-    
-    
     for count in range(total_rolls):
         dice1 = np.random.randint(1, 7)
         dice2 = np.random.randint(1, 7)
