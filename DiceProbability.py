@@ -29,9 +29,9 @@ def main():
 
     average = total_sum/dice_to_roll
     print(f"The average of all the dice rolls is {average}")
-    display_results(dice_results)
+    display_results(dice_results, dice_to_roll)
     
-def display_results(dice_results):
+def display_results(dice_results, total_rolls):
     xaxis = np.array([])
     yaxis = np.array([])
     
@@ -40,6 +40,9 @@ def display_results(dice_results):
         yaxis = np.append(yaxis, dice_results[roll])
     
     plt.bar(xaxis, yaxis)
+    plt.xlabel("Dice Result")
+    text = f"Result for {format(total_rolls, ',d')} rolls"
+    plt.title(text)
     plt.show()
     
 def get_input():
