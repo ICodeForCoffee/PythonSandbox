@@ -28,6 +28,7 @@ def main():
     difference_between_rolls = difference_total/times_to_test
     
     print(f"We rolled for advantage {times_to_test:,} times\n")
+    print(f"First let's treat the rolls as if they occured in order.")
     print(f"Advantaged improved our results {precent_rolls_improved:.2f}% of the time")
     print(f"Across all rolls we saw a +{advantage_improved_by:.2f} to rolls")
     print(f"Across rolls were advantage helped we saw a +{advantage_improved_rolls_it_helped_by:.2f} to rolls\n")
