@@ -16,4 +16,8 @@ This code proves experimentally the 2/3rd probably of getting the prize if you s
 
 ## RollWithAdvantage - Roll With Advantage
 
-Calcualtes how useful is rolling a D20 with advantage is.
+Calcualtes how useful is rolling a d20 with advantage is.
+
+## RollWithAdvantage2 - Roll With Advantage Graph
+
+Graphs the possible outcomes of rolling with advantage.
