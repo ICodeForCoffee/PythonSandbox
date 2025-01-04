@@ -18,6 +18,10 @@ The problem is defined as follows. First, there are three doors, and one of the 
 
 For more information about the Monty Hall problem, [view the Wikipedia article](https://en.wikipedia.org/wiki/Monty_Hall_problem).
 
+## RollForAbilityScore.py - Roll For Ability Score
+
+Graph of the probability of an ability scores by rolling four d6s and dropping the lowest value.
+
 ## RollWithAdvantage1.py - Roll With Advantage
 
 Calculates how useful it is to roll a d20 with advantage is. Rolling with advantage is defined as throwing two d20 and using the highest rolled value for the ability or attack roll.
