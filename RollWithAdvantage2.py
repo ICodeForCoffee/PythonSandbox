@@ -1,5 +1,4 @@
-# Graphs the 400 possible outcomes of rolling two d20s
-# The results this generates though aren't that interesting.
+# Graphs the 400 possible outcomes of rolling two d20s.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -8,8 +7,7 @@ def main():
     dice_improvement_rolled_seperately = {}
     dice_improvement_rolled_concurrent = {}
     
-    
-    # Let's get our results and then put them in.
+    # Let's get all the possible dice combinations and then put them in a dictionary.
     for roll in range(1, 21):
         dice_results[roll] = 0
         
