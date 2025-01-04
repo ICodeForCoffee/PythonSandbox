@@ -18,9 +18,13 @@ The problem is defined as follows. First, there are three doors, and one of the 
 
 For more information about the Monty Hall problem, [view the Wikipedia article](https://en.wikipedia.org/wiki/Monty_Hall_problem).
 
+## RollForAbilityArray.py - Roll For Ability Arary
+
+Creates a graph that compares the average of roled ability scores in D&D compared to the standard array.
+
 ## RollForAbilityScore.py - Roll For Ability Score
 
-Graph of the probability of an ability scores by rolling four d6s and dropping the lowest value.
+Graph of the probability of an ability score by rolling four d6s and dropping the lowest value.
 
 ## RollWithAdvantage1.py - Roll With Advantage
 
