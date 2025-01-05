@@ -8,7 +8,6 @@ def main():
     calculate_dice_rolls(1000)
     calculate_dice_rolls(10000)
     calculate_dice_rolls(100000)
-    calculate_dice_rolls(1000000)
 
 def calculate_dice_rolls(total_rolls):
     dice_rolls = np.random.randint(1, 7, size=(2, total_rolls))
