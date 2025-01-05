@@ -10,20 +10,16 @@ def main():
     calculate_dice_rolls(100000)
 
 def calculate_dice_rolls(total_rolls):
-    total_sum = 0
-    
-    dice_results = {}
+    dice_rolls = np.random.randint(1, 7, size=(2, total_rolls))
+    dice_totals = np.sum(dice_rolls, axis=0)
+    unique, counts = np.unique(dice_totals, return_counts=True)
+    dice_results = dict(zip(unique, counts))
+
+    # Insert missing values into the dictionary
     for roll in range(2, 13):
+        if  dice_results.get(roll) == None:
             dice_results[roll] = 0
     
-    for count in range(total_rolls):
-        dice1 = np.random.randint(1, 7)
-        dice2 = np.random.randint(1, 7)
-        roll = dice1 + dice2
-        total_sum += roll
-        dice_results[roll] += 1
-
-    average = total_sum/total_rolls
     display_results(dice_results, total_rolls)
 
 def display_results(dice_results, total_rolls):
