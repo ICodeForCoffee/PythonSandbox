@@ -3,7 +3,7 @@
 def main():
     number_in_sequence = get_input()
     fibonacci_number = get_fibonacci_number(number_in_sequence)
-    print(f"{fibonacci_number}")
+    print(f"{fibonacci_number:,d}")
 
 def get_fibonacci_number(number_in_sequence):
     if(number_in_sequence <= 0):
