@@ -52,6 +52,6 @@ Graphs the possible outcomes of rolling with advantage and how much advantage th
 
 ## VectorizationVsLoops.py Vectorization vs Loops
 
-A file that explores the difference between array vectorization and using a for loop to populate values into an array. For some reason the first time you run vectorization it's a little slow compared to when the method is called again.
+A file that explores the difference between array vectorization and using a for loop to populate values into an array. For some reason the first time you run vectorization it's a little slow compared to when the technique is called again.
 
 [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/VectorizationVsLoops.py)
