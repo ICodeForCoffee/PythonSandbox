@@ -49,3 +49,9 @@ In real life, some players will throw the same day twice while other others will
 Graphs the possible outcomes of rolling with advantage and how much advantage that gives. Provides graphs for the probability of each roll, a graph of the improvement if you treat the dice as separate events, and a graph if you treat the dice as concurrent events.
 
 [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/RollWithAdvantage2.py)
+
+## VectorizationVsLoops.py Vectorization vs Loops
+
+A file that explores the difference between array vectorization and using a for loop to populate values into an array. For some reason the first time you run vectorization it's a little slow compared to when the method is called again.
+
+[View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/VectorizationVsLoops.py)
