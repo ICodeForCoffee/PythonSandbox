@@ -54,7 +54,7 @@ Graphs the possible outcomes of rolling with advantage and how much advantage th
 
 Solves Suddoku
 
-[View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/RollWithAdvantage2.py)
+[View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/Sudoku.py)
 
 
 ## VectorizationVsLoops.py - Vectorization vs Loops
