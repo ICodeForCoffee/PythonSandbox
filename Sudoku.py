@@ -2,7 +2,7 @@ import numpy
 
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle1.txt")
+    puzzle = load_puzzle("sudoku-puzzle4.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
     solve_puzzle(puzzle)
@@ -37,15 +37,15 @@ def solve_puzzle(puzzle):
     
     while changesd_squares > 0:
         changesd_squares = 0
-        puzzle = populate_possible_value(puzzle)
+        puzzle = populate_possible_values(puzzle)
         puzzle = prune_possibilities(puzzle)
         puzzle, changesd_squares = promote_solved_squares(puzzle)
     
-    print("\nAfter attempted to solve\n")
+    print("\nAfter attempting to solve\n")
     display_puzzle(puzzle)
     print()
 
-def populate_possible_value(puzzle):
+def populate_possible_values(puzzle):
     for x in range(9):
         for y in range(9):
             if puzzle.squares[x][y]['value'] == " ":
@@ -89,7 +89,26 @@ def populate_possible_value(puzzle):
     return puzzle
 
 def prune_possibilities(puzzle):
-    
+    for x in range(9):
+        for y in range(9):
+            found_match = False
+            if puzzle.squares[x][y]['value'] == " ":
+                for possible_value in puzzle.squares[x][y]['possible_values']:
+                    if not found_match:
+                        only_x_axis_appearance = True
+                        only_y_axis_appearance = True
+                        
+                        for xaxis in range(9):
+                            if possible_value in puzzle.squares[xaxis][y]['possible_values']:
+                                only_x_axis_appearance = False
+
+                        for yaxis in range(9):
+                            if possible_value in puzzle.squares[x][yaxis]['possible_values']:
+                                only_y_axis_appearance = False
+                        
+                        if only_x_axis_appearance or only_y_axis_appearance:
+                            found_match = True
+                            puzzle.squares[x][y]['possible_values'] = [possible_value]
     
     return puzzle
 
