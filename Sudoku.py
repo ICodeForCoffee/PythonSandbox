@@ -2,10 +2,14 @@ import numpy
 
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle4.txt")
+    puzzle = load_puzzle("sudoku-puzzle3.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
-    solve_puzzle(puzzle)
+    puzzle = solve_puzzle(puzzle)
+    print("\nAfter attempting to solve\n")
+    display_puzzle(puzzle)
+    print()
+
 
 def load_puzzle(fila_name):
     file = open(fila_name, "r")
@@ -39,12 +43,11 @@ def solve_puzzle(puzzle):
         changesd_squares = 0
         puzzle = populate_possible_values(puzzle)
         puzzle = prune_possibilities(puzzle)
-        puzzle = perform_analysis(puzzle)
         puzzle, changesd_squares = promote_solved_squares(puzzle)
     
-    print("\nAfter attempting to solve\n")
-    display_puzzle(puzzle)
-    print()
+    if not puzzle.is_solved():
+        puzzle = perform_analysis(puzzle)
+    return puzzle
 
 def populate_possible_values(puzzle):
     for x in range(9):
@@ -54,7 +57,8 @@ def populate_possible_values(puzzle):
                 
                 for xaxis in range(9):
                     if (puzzle.squares[xaxis][y]['value'] != " "):
-                        possible_values.remove(int(puzzle.squares[xaxis][y]['value']))
+                        if int(puzzle.squares[xaxis][y]['value']) in possible_values:
+                            possible_values.remove(int(puzzle.squares[xaxis][y]['value']))
 
                 for yaxis in range(9):
                     if (puzzle.squares[x][yaxis]['value'] != " "):
@@ -141,12 +145,16 @@ def prune_possibilities(puzzle):
 
 def perform_analysis(puzzle):
     # Check if value must appear in the row for possibilities.
+    # Or for the moment we'll cheat
     for x in range(9):
         for y in range(9):
-            found_match = False
             if puzzle.squares[x][y]['value'] == " ":
                 for possible_value in puzzle.squares[x][y]['possible_values']:
-                    pass
+                    puzzleCopy = puzzle
+                    puzzleCopy.squares[x][y]['value'] = possible_value
+                    puzzleCopy = solve_puzzle(puzzleCopy)
+                    if puzzleCopy.is_solved():
+                        return puzzleCopy
     
     return puzzle
 
@@ -171,6 +179,11 @@ class SudokuPuzzle:
         return False
     
     def is_solved(self):
-        return False
+        for x in range(9):
+            for y in range(9):
+                if self.squares[x][y]['value'] == " ":
+                    return False
+        
+        return True
     
 main()
