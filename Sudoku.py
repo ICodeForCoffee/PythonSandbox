@@ -1,11 +1,11 @@
 import numpy
-
+import copy
 
 def main():
     puzzle = load_puzzle("sudoku-puzzle3.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
-    puzzle = solve_puzzle(puzzle)
+    solve_puzzle(puzzle)
     print("\nAfter attempting to solve\n")
     display_puzzle(puzzle)
     print()
@@ -41,13 +41,13 @@ def solve_puzzle(puzzle):
     
     while changesd_squares > 0:
         changesd_squares = 0
-        puzzle = populate_possible_values(puzzle)
-        puzzle = prune_possibilities(puzzle)
-        puzzle, changesd_squares = promote_solved_squares(puzzle)
+        populate_possible_values(puzzle)
+        prune_possibilities(puzzle)
+        perform_analysis(puzzle)
+        changesd_squares = promote_solved_squares(puzzle)
     
     if not puzzle.is_solved():
-        puzzle = perform_analysis(puzzle)
-    return puzzle
+        guess_a_value(puzzle)
 
 def populate_possible_values(puzzle):
     for x in range(9):
@@ -90,8 +90,6 @@ def populate_possible_values(puzzle):
                 puzzle.squares[x][y]['possible_values'] = possible_values
             else:
                 puzzle.squares[x][y]['possible_values'] = []
-
-    return puzzle
 
 def prune_possibilities(puzzle):
     for x in range(9):
@@ -141,22 +139,36 @@ def prune_possibilities(puzzle):
                             if only_box_appearance:
                                 found_box_requirement = True
                                 puzzle.squares[x][y]['possible_values'] = [possible_value]
-    return puzzle
 
 def perform_analysis(puzzle):
+    #thre is another case I can check here for solving the puzzle.
+    # I need to check if values for a cell must appear in other cells aligned with the cell on the x asxis and the yaxis. If so, I can prune the list of possibilities
+    # Specifically, the use case of two values must appear in two specific cells on any axis.
+    # I could also look at this for three cells in a box one the axises.
+    pass
+    
+def guess_a_value(puzzle):
     # Check if value must appear in the row for possibilities.
     # Or for the moment we'll cheat
+    unmodified_puzzle = copy.deepcopy(puzzle )
+    
     for x in range(9):
         for y in range(9):
-            if puzzle.squares[x][y]['value'] == " ":
+            if puzzle.squares[x][y]['value'] == " ": #I could check here that the possible value list is not empty
                 for possible_value in puzzle.squares[x][y]['possible_values']:
-                    puzzleCopy = puzzle
-                    puzzleCopy.squares[x][y]['value'] = possible_value
-                    puzzleCopy = solve_puzzle(puzzleCopy)
-                    if puzzleCopy.is_solved():
-                        return puzzleCopy
+                    
+                    print(f"Guessing a value at [{x}, {y}]") #added for debugging.
+                    display_puzzle(puzzle)
+                    print()
+                    puzzle_copy = copy.deepcopy(unmodified_puzzle )
+                    puzzle_copy.squares[x][y]['value'] = possible_value
+                    puzzle_copy = solve_puzzle(puzzle_copy)
+                    if puzzle_copy != None and puzzle_copy.is_solved():
+                        print("A guess solved the puzzle")
+                        #puzzle = copy.deepcopy(puzzleCopy)
+                        return puzzle_copy
     
-    return puzzle
+    return unmodified_puzzle
 
 def promote_solved_squares(puzzle):
     promotions = 0
@@ -167,7 +179,7 @@ def promote_solved_squares(puzzle):
                 puzzle.squares[x][y]['value'] = puzzle.squares[x][y]['possible_values'][0]
                 promotions += 1
     
-    return puzzle, promotions
+    return promotions
 
 class SudokuPuzzle:
     squares = [ [{'value': "", 'possible_values': []} for x in range(9)] for y in range(9)]
