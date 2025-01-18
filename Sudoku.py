@@ -23,7 +23,6 @@ def load_puzzle(fila_name):
         for y in range(9):
             puzzle.squares[x][y]['value'] = line[y]
         
-        pass
     return puzzle
 
 def display_puzzle(puzzle):
@@ -249,6 +248,5 @@ class SudokuPuzzle:
                 return False
             
         return True
-
 
 main()
