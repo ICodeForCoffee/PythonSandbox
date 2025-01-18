@@ -2,12 +2,13 @@ import numpy
 import copy
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle2.txt")
+    puzzle = load_puzzle("sudoku-puzzle4.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
     solve_puzzle(puzzle)
-    print("\nAfter attempting to solve\n")
+    print("After attempting to solve\n")
     display_puzzle(puzzle)
+    print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
     print()
 
 
@@ -33,11 +34,9 @@ def display_puzzle(puzzle):
             if y == 3 or y == 6:
                 print(" | ", end="")
             print(f" {puzzle.squares[x][y]['value']} ", end="")
-            
         
         print("")
-    
-    print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
+    print("")
 
 def solve_puzzle(puzzle):
     changesd_squares = 1
@@ -160,16 +159,14 @@ def guess_a_value(puzzle):
         for y in range(9):
             if puzzle.squares[x][y]['value'] == " ": #I could check here that the possible value list is not empty
                 for possible_value in puzzle.squares[x][y]['possible_values']:
-                    
                     print(f"Guessing a value at [{x}, {y}]") #added for debugging.
-                    display_puzzle(puzzle)
                     print()
+                    display_puzzle(puzzle)
+                    
                     puzzle_copy = copy.deepcopy(unmodified_puzzle )
                     puzzle_copy.squares[x][y]['value'] = possible_value
                     puzzle_copy = solve_puzzle(puzzle_copy)
                     if puzzle_copy.is_solved():
-                        print("A guess solved the puzzle")
-                        #puzzle = copy.deepcopy(puzzleCopy)
                         return puzzle_copy
     
     return unmodified_puzzle
