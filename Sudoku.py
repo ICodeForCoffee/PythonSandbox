@@ -2,7 +2,7 @@ import numpy
 import copy
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle3.txt")
+    puzzle = load_puzzle("sudoku-puzzle2.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
     solve_puzzle(puzzle)
@@ -34,7 +34,10 @@ def display_puzzle(puzzle):
                 print(" | ", end="")
             print(f" {puzzle.squares[x][y]['value']} ", end="")
             
+        
         print("")
+    
+    print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
 
 def solve_puzzle(puzzle):
     changesd_squares = 1
@@ -48,6 +51,7 @@ def solve_puzzle(puzzle):
     
     if not puzzle.is_solved():
         guess_a_value(puzzle)
+    return puzzle
 
 def populate_possible_values(puzzle):
     for x in range(9):
@@ -163,7 +167,7 @@ def guess_a_value(puzzle):
                     puzzle_copy = copy.deepcopy(unmodified_puzzle )
                     puzzle_copy.squares[x][y]['value'] = possible_value
                     puzzle_copy = solve_puzzle(puzzle_copy)
-                    if puzzle_copy != None and puzzle_copy.is_solved():
+                    if puzzle_copy.is_solved():
                         print("A guess solved the puzzle")
                         #puzzle = copy.deepcopy(puzzleCopy)
                         return puzzle_copy
@@ -187,8 +191,33 @@ class SudokuPuzzle:
     def __init__(self):
         pass
     
-    def is_valid(self):
-        return False
+    # def is_valid(self):
+    #     value_list = list(range(1, 10))
+    #     for x in range(9):
+    #         found_values = []
+    #         for y in range(9):
+    #             if self.squares[x][y]['value'] == " ":
+    #                 return False
+                
+    #             found_values.append(int(self.squares[x][y]['value']))
+    #         found_values.sort()
+            
+    #         if value_list != found_values:
+    #             return False
+            
+    #     for y in range(9):
+    #         found_values = []
+    #         for x in range(9):
+    #             if self.squares[x][y]['value'] == " ":
+    #                 return False
+                
+    #             found_values.append(int(self.squares[x][y]['value']))
+    #         found_values.sort()
+            
+    #         if value_list != found_values:
+    #             return False
+            
+    #     return True
     
     def is_solved(self):
         for x in range(9):
@@ -196,6 +225,33 @@ class SudokuPuzzle:
                 if self.squares[x][y]['value'] == " ":
                     return False
         
+                value_list = list(range(1, 10))
+
+        for x in range(9):
+            found_values = []
+            for y in range(9):
+                if self.squares[x][y]['value'] == " ":
+                    return False
+                
+                found_values.append(int(self.squares[x][y]['value']))
+            found_values.sort()
+            
+            if value_list != found_values:
+                return False
+            
+        for y in range(9):
+            found_values = []
+            for x in range(9):
+                if self.squares[x][y]['value'] == " ":
+                    return False
+                
+                found_values.append(int(self.squares[x][y]['value']))
+            found_values.sort()
+            
+            if value_list != found_values:
+                return False
+            
         return True
-    
+
+
 main()
