@@ -2,7 +2,7 @@ import numpy
 import copy
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle4.txt")
+    puzzle = load_puzzle("sudoku-puzzle1.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
     solve_puzzle(puzzle)
@@ -152,21 +152,28 @@ def perform_analysis(puzzle):
 def guess_a_value(puzzle):
     # Check if value must appear in the row for possibilities.
     # Or for the moment we'll cheat
-    unmodified_puzzle = copy.deepcopy(puzzle )
+    unmodified_puzzle = copy.deepcopy(puzzle)
     
     for x in range(9):
         for y in range(9):
-            if puzzle.squares[x][y]['value'] == " ": #I could check here that the possible value list is not empty
-                for possible_value in puzzle.squares[x][y]['possible_values']:
-                    print(f"Guessing a value at [{x}, {y}]") #added for debugging.
+            if unmodified_puzzle.squares[x][y]['value'] == " " and len(unmodified_puzzle.squares[x][y]['possible_values']) > 0:
+                
+                for possible_value in unmodified_puzzle.squares[x][y]['possible_values']:
+                    print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
                     print()
-                    display_puzzle(puzzle)
+                    puzzle2 = copy.deepcopy(unmodified_puzzle)
                     
-                    puzzle_copy = copy.deepcopy(unmodified_puzzle )
-                    puzzle_copy.squares[x][y]['value'] = possible_value
-                    puzzle_copy = solve_puzzle(puzzle_copy)
-                    if puzzle_copy.is_solved():
-                        return puzzle_copy
+                    display_puzzle(puzzle2)
+                    
+                    puzzle2.squares[x][y]['value'] = possible_value
+                    #puzzle2.squares[x][y]['possible_values'] = []
+                    prune_possibilities(puzzle2)
+                    
+                    puzzle2 = solve_puzzle(puzzle2)
+                    if puzzle2.is_solved():
+                        return puzzle2
+            else:
+                pass
     
     return unmodified_puzzle
 
@@ -182,10 +189,8 @@ def promote_solved_squares(puzzle):
     return promotions
 
 class SudokuPuzzle:
-    squares = [ [{'value': "", 'possible_values': []} for x in range(9)] for y in range(9)]
-    
     def __init__(self):
-        pass
+        self.squares = [ [{'value': "", 'possible_values': []} for x in range(9)] for y in range(9)]
     
     # def is_valid(self):
     #     value_list = list(range(1, 10))
@@ -216,12 +221,7 @@ class SudokuPuzzle:
     #     return True
     
     def is_solved(self):
-        for x in range(9):
-            for y in range(9):
-                if self.squares[x][y]['value'] == " ":
-                    return False
-        
-                value_list = list(range(1, 10))
+        value_list = list(range(1, 10))
 
         for x in range(9):
             found_values = []
@@ -234,19 +234,17 @@ class SudokuPuzzle:
             
             if value_list != found_values:
                 return False
-            
+        
         for y in range(9):
             found_values = []
             for x in range(9):
-                if self.squares[x][y]['value'] == " ":
-                    return False
                 
                 found_values.append(int(self.squares[x][y]['value']))
             found_values.sort()
             
             if value_list != found_values:
                 return False
-            
+        
         return True
 
 main()
