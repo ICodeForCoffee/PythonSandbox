@@ -52,9 +52,16 @@ Graphs the possible outcomes of rolling with advantage and how much advantage th
 
 ## Sudoku.py - Sudoku Solver
 
-Solves Suddoku
+Solves Suddoku. This project has a main() file, two class files, and multiple test files you can run through the application.
 
+### Sudoku.py - Main()
 [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/Sudoku.py)
+
+### SudokuPuzzle.py - Class that represents a Sudoku puzzle.
+[View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/SudokuPuzzle.py)
+
+### SudokuSolver.py - Logic for solving a Sudoky puzzle.
+[View file.](https://github.com/ICodeForCoffee/PythonSolver.py)
 
 
 ## VectorizationVsLoops.py - Vectorization vs Loops
