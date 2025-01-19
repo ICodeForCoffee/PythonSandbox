@@ -2,8 +2,6 @@ from SudokuPuzzle import SudokuPuzzle
 import copy
 
 class SudokuSolver:
-    used_guessing = False
-
     def __init__(self):
         pass
 
@@ -46,7 +44,10 @@ class SudokuSolver:
 
         if not puzzle.is_solved():
             puzzle = SudokuSolver.guess_a_value(puzzle)
-        return puzzle
+            used_guessing = True
+        else:
+            used_guessing = False
+        return puzzle, used_guessing
 
     def populate_possible_values(puzzle):
         for x in range(9):
@@ -166,7 +167,7 @@ class SudokuSolver:
                         SudokuSolver.populate_possible_values(puzzle2)
                         SudokuSolver.prune_possibilities(puzzle2)
 
-                        puzzle2 = SudokuSolver.solve_puzzle(puzzle2)
+                        puzzle2, used_guessing = SudokuSolver.solve_puzzle(puzzle2)
                         if puzzle2.is_solved():
                             puzzle = copy.deepcopy(puzzle2)
                             return puzzle
