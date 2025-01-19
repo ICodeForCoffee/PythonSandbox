@@ -56,7 +56,7 @@ Solves Suddoku. This project has a main() file, two class files, and multiple te
 
 - Sudoku.py - Main() - [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/Sudoku.py)
 - SudokuPuzzle.py - Class that represents a Sudoku puzzle - [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/SudokuPuzzle.py)
-- SudokuSolver.py - Logic for solving a Sudoku puzzle - [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/Sudokuolver.py)
+- SudokuSolver.py - Logic for solving a Sudoku puzzle - [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/SudokuSolver.py)
 
 ## VectorizationVsLoops.py - Vectorization vs Loops
 
