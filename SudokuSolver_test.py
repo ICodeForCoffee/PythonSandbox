@@ -23,6 +23,6 @@ def test_basic_solving():
             puzzle.squares[x][y]['value'] = matrix[x][y]
 
     assert puzzle.is_solved() == False
-    puzzle, used_guessing = SudokuSolver.solve_puzzle(puzzle)
+    puzzle = SudokuSolver.solve_puzzle(puzzle)
     assert puzzle.squares[3][4]['value'] == 6
     assert puzzle.is_solved() == True
