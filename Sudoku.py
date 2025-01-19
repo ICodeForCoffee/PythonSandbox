@@ -2,7 +2,7 @@ import numpy
 import copy
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle4.txt")
+    puzzle = load_puzzle("sudoku-puzzle5.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
     puzzle = solve_puzzle(puzzle)
@@ -18,6 +18,8 @@ def load_puzzle(fila_name):
     
     for x in range(9):
         line = file.readline()
+        if line[0] == "-":
+            line = file.readline()
         line = line.replace("|", "")
         
         for y in range(9):
