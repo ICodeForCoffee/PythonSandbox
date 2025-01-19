@@ -1,4 +1,4 @@
-from Sudoku import SudokuPuzzle
+from SudokuPuzzle import SudokuPuzzle
 import pytest
 
 def test_puzzle_is_solved():
