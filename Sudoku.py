@@ -2,10 +2,10 @@ import numpy
 import copy
 
 def main():
-    puzzle = load_puzzle("sudoku-puzzle1.txt")
+    puzzle = load_puzzle("sudoku-puzzle4.txt")
     print("Initial puzzle\n")
     display_puzzle(puzzle)
-    solve_puzzle(puzzle)
+    puzzle = solve_puzzle(puzzle)
     print("After attempting to solve\n")
     display_puzzle(puzzle)
     print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
@@ -28,10 +28,10 @@ def load_puzzle(fila_name):
 def display_puzzle(puzzle):
     for x in range(9):
         if x == 3 or x == 6:
-            print("---------   ---------   ---------")
+            print("--------- --------- ---------")
         for y in range(9):
             if y == 3 or y == 6:
-                print(" | ", end="")
+                print("|", end="")
             print(f" {puzzle.squares[x][y]['value']} ", end="")
         
         print("")
@@ -48,7 +48,7 @@ def solve_puzzle(puzzle):
         changesd_squares = promote_solved_squares(puzzle)
     
     if not puzzle.is_solved():
-        guess_a_value(puzzle)
+        puzzle = guess_a_value(puzzle)
     return puzzle
 
 def populate_possible_values(puzzle):
@@ -159,19 +159,20 @@ def guess_a_value(puzzle):
             if unmodified_puzzle.squares[x][y]['value'] == " " and len(unmodified_puzzle.squares[x][y]['possible_values']) > 0:
                 
                 for possible_value in unmodified_puzzle.squares[x][y]['possible_values']:
-                    print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
-                    print()
+                    #print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
+                    #print()
                     puzzle2 = copy.deepcopy(unmodified_puzzle)
                     
-                    display_puzzle(puzzle2)
+                    #display_puzzle(puzzle2)
                     
                     puzzle2.squares[x][y]['value'] = possible_value
-                    #puzzle2.squares[x][y]['possible_values'] = []
+                    populate_possible_values(puzzle2)
                     prune_possibilities(puzzle2)
                     
                     puzzle2 = solve_puzzle(puzzle2)
                     if puzzle2.is_solved():
-                        return puzzle2
+                        puzzle = copy.deepcopy(puzzle2)
+                        return puzzle
             else:
                 pass
     
@@ -193,32 +194,7 @@ class SudokuPuzzle:
         self.squares = [ [{'value': "", 'possible_values': []} for x in range(9)] for y in range(9)]
     
     # def is_valid(self):
-    #     value_list = list(range(1, 10))
-    #     for x in range(9):
-    #         found_values = []
-    #         for y in range(9):
-    #             if self.squares[x][y]['value'] == " ":
-    #                 return False
-                
-    #             found_values.append(int(self.squares[x][y]['value']))
-    #         found_values.sort()
-            
-    #         if value_list != found_values:
-    #             return False
-            
-    #     for y in range(9):
-    #         found_values = []
-    #         for x in range(9):
-    #             if self.squares[x][y]['value'] == " ":
-    #                 return False
-                
-    #             found_values.append(int(self.squares[x][y]['value']))
-    #         found_values.sort()
-            
-    #         if value_list != found_values:
-    #             return False
-            
-    #     return True
+    # Add a method to check if the puzzle status is valid
     
     def is_solved(self):
         value_list = list(range(1, 10))
