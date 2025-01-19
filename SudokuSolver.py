@@ -1,8 +1,5 @@
 from SudokuPuzzle import SudokuPuzzle
-
-
 import copy
-
 
 class SudokuSolver:
     used_guessing = False

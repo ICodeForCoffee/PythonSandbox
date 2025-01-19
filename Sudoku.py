@@ -1,7 +1,4 @@
-import numpy
-
 from SudokuSolver import SudokuSolver
-
 
 def main():
     puzzle = SudokuSolver.load_puzzle("sudoku-puzzle5.txt")
