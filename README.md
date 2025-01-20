@@ -63,6 +63,8 @@ This application includes unit tests in
 - SudokuPuzzle_test.py - [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/SudokuPuzzle_test.py)
 - SudokuSolver_test.py - [View file.](https://github.com/ICodeForCoffee/PythonSandbox/blob/main/SudokuSolver_test.py)
 
+Puzzles for the application are [located in a folder](https://github.com/ICodeForCoffee/PythonSandbox/tree/main/SudokuPuzzles).
+
 ## VectorizationVsLoops.py - Vectorization vs Loops
 
 A file that explores the difference between array vectorization and using a for loop to populate values into an array. For some reason the first time you run vectorization it's a little slow compared to when the technique is called again.
