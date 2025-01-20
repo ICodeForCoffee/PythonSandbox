@@ -1,6 +1,6 @@
 # Python Sandbox
 
-A series of scripts for learning about Python that calculate and do various things.
+A series of scripts for learning about Python that calculate and do various things. Everything is built for python 3.13+.
 
 ## DiceProbability.py - Two Dice Result Probability Graphs
 
