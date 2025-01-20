@@ -68,3 +68,28 @@ def test_simple_solving():
     puzzle = SudokuSolver.solve_puzzle(puzzle)
     assert puzzle.is_solved() == True
     assert puzzle.guessing_used == False
+
+def test_load_function():
+    puzzle = SudokuPuzzle()
+    
+    puzzle = SudokuSolver.load_puzzle("sudoku-puzzle1.txt")
+    
+    #This is the same Matrix from sudoku-puzzle1.txt    
+    matrix = [
+        [' ',' ', 2 , 7 ,' ',' ', 1 , 5 , 6 ],
+        [' ', 3 ,' ', 6 , 2 , 8 ,' ', 4 ,' '],
+        [ 7 , 6 , 9 ,' ',' ',' ',' ', 3 ,' '],
+        [ 9 ,' ', 7 ,' ', 4 , 5 , 3 ,' ',' '],
+        [' ',' ',' ',' ', 8 ,' ', 7 , 2 ,' '],
+        [ 6 , 2 ,' ', 3 ,' ',' ', 5 ,' ',' '],
+        [' ', 5 ,' ', 1 ,' ', 3 ,' ',' ', 9 ],
+        [' ', 7 ,' ',' ', 9 ,' ', 2 ,' ', 5 ],
+        [ 4 ,' ', 1 , 5 , 7 ,' ',' ',' ',' ']
+    ]
+    
+    for x in range(9):
+        for y in range(9):
+            if isinstance(matrix[x][y], int) == True:
+                assert int(puzzle.squares[x][y]['value']) == matrix[x][y]
+            else:
+                assert puzzle.squares[x][y]['value'] == matrix[x][y]
