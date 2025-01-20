@@ -72,7 +72,7 @@ def test_simple_solving():
 def test_load_function():
     puzzle = SudokuPuzzle()
     
-    puzzle = SudokuSolver.load_puzzle("sudoku-puzzle1.txt")
+    puzzle = SudokuSolver.load_puzzle("SudokuPuzzles\sudoku-puzzle1.txt")
     
     #This is the same Matrix from sudoku-puzzle1.txt    
     matrix = [

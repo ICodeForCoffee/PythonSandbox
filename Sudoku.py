@@ -1,7 +1,7 @@
 from SudokuSolver import SudokuSolver
 
 def main():
-    puzzle = SudokuSolver.load_puzzle("sudoku-puzzle4.txt")
+    puzzle = SudokuSolver.load_puzzle("SudokuPuzzles\sudoku-puzzle4.txt")
     print("Initial puzzle\n")
     SudokuSolver.display_puzzle(puzzle)
     puzzle = SudokuSolver.solve_puzzle(puzzle)
