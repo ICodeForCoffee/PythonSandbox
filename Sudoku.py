@@ -2,8 +2,8 @@ from SudokuSolver import SudokuSolver
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description="Sudoku Solver")
-    parser.add_argument("-file", help="Sudoku problem to solve", type=str)
+    parser = argparse.ArgumentParser(prog="Sudoku Solver", description="Sudoku Solver")
+    parser.add_argument("-file", help="Sudoku problem to solve", required=True, type=str)
     args = parser.parse_args()
     
     instance = SudokuSolver()
