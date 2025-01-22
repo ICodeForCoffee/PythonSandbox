@@ -1,8 +1,13 @@
 from SudokuSolver import SudokuSolver
+import argparse
 
 def main():
+    parser = argparse.ArgumentParser(description="Sudoku Solver")
+    parser.add_argument("-file", help="Sudoku problem to solve", type=str)
+    args = parser.parse_args()
+    
     instance = SudokuSolver()
-    puzzle = instance.load_puzzle("SudokuPuzzles\\sudoku-puzzle6.txt")
+    puzzle = instance.load_puzzle(args.file)
     
     print("Initial puzzle\n")
     instance.display_puzzle(puzzle)
