@@ -5,8 +5,8 @@ class SudokuSolver:
     def __init__(self):
         pass
 
-    def load_puzzle(fila_name):
-        file = open(fila_name, "r")
+    def load_puzzle(self, file_name):
+        file = open(file_name, "r")
         puzzle = SudokuPuzzle()
 
         for x in range(9):
@@ -20,7 +20,7 @@ class SudokuSolver:
 
         return puzzle
 
-    def display_puzzle(puzzle):
+    def display_puzzle(self, puzzle):
         for x in range(9):
             if x == 3 or x == 6:
                 print("--------- --------- ---------")
@@ -32,22 +32,22 @@ class SudokuSolver:
             print("")
         print("")
 
-    def solve_puzzle(puzzle):
+    def solve_puzzle(self, puzzle):
         changesd_squares = 1
 
         while changesd_squares > 0:
             changesd_squares = 0
-            SudokuSolver.populate_possible_values(puzzle)
-            SudokuSolver.prune_possibilities(puzzle)
-            SudokuSolver.perform_analysis(puzzle)
-            changesd_squares = SudokuSolver.promote_solved_squares(puzzle)
+            self.populate_possible_values(puzzle)
+            self.prune_possibilities(puzzle)
+            self.perform_analysis(puzzle)
+            changesd_squares = self.promote_solved_squares(puzzle)
 
         if not puzzle.is_solved():
-            puzzle = SudokuSolver.guess_a_value(puzzle)
+            puzzle = self.guess_a_value(puzzle)
         
         return puzzle
 
-    def populate_possible_values(puzzle):
+    def populate_possible_values(self, puzzle):
         for x in range(9):
             for y in range(9):
                 if puzzle.squares[x][y]['value'] == " ":
@@ -89,7 +89,7 @@ class SudokuSolver:
                 else:
                     puzzle.squares[x][y]['possible_values'] = []
 
-    def prune_possibilities(puzzle):
+    def prune_possibilities(self, puzzle):
         for x in range(9):
             for y in range(9):
                 found_axis_requirement = False
@@ -138,44 +138,51 @@ class SudokuSolver:
                                     found_box_requirement = True
                                     puzzle.squares[x][y]['possible_values'] = [possible_value]
 
-    def perform_analysis(puzzle):
+    def perform_analysis(self, puzzle):
         #thre is another case I can check here for solving the puzzle.
         # I need to check if values for a cell must appear in other cells aligned with the cell on the x asxis and the yaxis. If so, I can prune the list of possibilities
         # Specifically, the use case of two values must appear in two specific cells on any axis.
         # I could also look at this for three cells in a box one the axises.
         pass
 
-    def guess_a_value(puzzle):
+    def guess_a_value(self, puzzle):
         # Check if value must appear in the row for possibilities.
         # Or for the moment we'll cheat
         puzzle.guessing_used = True
         unmodified_puzzle = copy.deepcopy(puzzle)
 
-        for x in range(9):
-            for y in range(9):
-                if unmodified_puzzle.squares[x][y]['value'] == " " and len(unmodified_puzzle.squares[x][y]['possible_values']) > 0:
+        x, y = self.pick_a_square_to_guess(unmodified_puzzle)
 
-                    for possible_value in unmodified_puzzle.squares[x][y]['possible_values']:
-                        #print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
-                        #print()
-                        puzzle2 = copy.deepcopy(unmodified_puzzle)
+        for possible_value in unmodified_puzzle.squares[x][y]['possible_values']:
+            #print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
+            #print()
+            puzzle2 = copy.deepcopy(unmodified_puzzle)
 
-                        #display_puzzle(puzzle2)
+            #display_puzzle(puzzle2)
 
-                        puzzle2.squares[x][y]['value'] = possible_value
-                        SudokuSolver.populate_possible_values(puzzle2)
-                        SudokuSolver.prune_possibilities(puzzle2)
+            puzzle2.squares[x][y]['value'] = possible_value
+            self.populate_possible_values(puzzle2)
+            self.prune_possibilities(puzzle2)
 
-                        puzzle2 = SudokuSolver.solve_puzzle(puzzle2)
-                        if puzzle2.is_solved():
-                            puzzle = copy.deepcopy(puzzle2)
-                            return puzzle
-                else:
-                    pass
-
+            puzzle2 = self.solve_puzzle(puzzle2)
+            if puzzle2.is_solved():
+                puzzle = copy.deepcopy(puzzle2)
+                return puzzle
+      
         return unmodified_puzzle
 
-    def promote_solved_squares(puzzle):
+    def pick_a_square_to_guess(self, puzzle):
+        #If there is a square with only one option, this method should not be called, but we're returning it incase it is.
+        for option_count in range(2, 10):
+            for x in range(9):
+                for y in range(9):
+                    if puzzle.squares[x][y]['value'] == " " and len(puzzle.squares[x][y]['possible_values']) > 0 and len(puzzle.squares[x][y]['possible_values']) <= option_count:
+                        return x, y
+        
+        #This is an error state
+        return -1, -1
+
+    def promote_solved_squares(self, puzzle):
         promotions = 0
 
         for x in range(9):

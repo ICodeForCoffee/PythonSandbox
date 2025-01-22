@@ -4,6 +4,7 @@ import pytest
 
 def test_basic_solving():
     puzzle = SudokuPuzzle()
+    instance = SudokuSolver()
     
     # The missing value here is 6.
     matrix = [
@@ -23,7 +24,7 @@ def test_basic_solving():
             puzzle.squares[x][y]['value'] = matrix[x][y]
 
     assert puzzle.is_solved() == False
-    puzzle = SudokuSolver.solve_puzzle(puzzle)
+    puzzle = instance.solve_puzzle(puzzle)
     assert puzzle.squares[3][4]['value'] == 6
     assert puzzle.is_solved() == True
 
@@ -45,6 +46,7 @@ def test_basic_solving():
 
 def test_simple_solving():
     puzzle = SudokuPuzzle()
+    instance = SudokuSolver()
     
     #This is the same Matrix from sudoku-puzzle1.txt    
     matrix = [
@@ -65,14 +67,15 @@ def test_simple_solving():
 
     
     assert puzzle.is_solved() == False
-    puzzle = SudokuSolver.solve_puzzle(puzzle)
+    puzzle = instance.solve_puzzle(puzzle)
     assert puzzle.is_solved() == True
     assert puzzle.guessing_used == False
 
 def test_load_function():
     puzzle = SudokuPuzzle()
+    instance = SudokuSolver()
     
-    puzzle = SudokuSolver.load_puzzle("SudokuPuzzles\sudoku-puzzle1.txt")
+    puzzle = instance.load_puzzle("SudokuPuzzles\\sudoku-puzzle1.txt")
     
     #This is the same Matrix from sudoku-puzzle1.txt    
     matrix = [
