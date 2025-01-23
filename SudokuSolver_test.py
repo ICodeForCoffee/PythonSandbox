@@ -71,13 +71,98 @@ def test_simple_solving():
     assert puzzle.is_solved() == True
     assert puzzle.guessing_used == False
 
+def test_complex_solving_one():
+    puzzle = SudokuPuzzle()
+    instance = SudokuSolver()
+    
+    # This is the same Matrix from sudoku-puzzle6.txt
+    matrix = [
+        [' ',' ',' ',' ',' ',' ', 1 , 6 ,' '],
+        [ 6 ,' ',' ', 3 ,' ',' ', 4 ,' ',' '],
+        [' ',' ', 9 ,' ',' ', 7 ,' ',' ',' '],
+        [' ',' ', 8 ,' ',' ', 4 ,' ',' ',' '],
+        [' ',' ', 2 ,' ',' ',' ',' ',' ', 7 ],
+        [' ', 9 ,' ', 8 ,' ',' ', 2 , 5 ,' '],
+        [' ', 2 ,' ',' ', 1 , 8 ,' ',' ',' '],
+        [' ',' ',' ',' ', 9 ,' ',' ',' ',' '],
+        [ 4 , 7 ,' ',' ',' ',' ',' ',' ', 1 ]
+    ]
+    
+    for x in range(9):
+        for y in range(9):
+            puzzle.squares[x][y]['value'] = matrix[x][y]
+
+    
+    assert puzzle.is_solved() == False
+    puzzle = instance.solve_puzzle(puzzle)
+    assert puzzle.is_solved() == True
+
+def test_complex_solving_two():
+    puzzle = SudokuPuzzle()
+    instance = SudokuSolver()
+    
+    # This is the same Matrix from sudoku-puzzle4.txt with two values filled in
+    matrix = [
+        [' ', ' ',' ',' ',' ', 4 , 3 ,' ',' '],
+        [' ', 7 , 5 ,' ', 9 , 8 ,' ',' ', 2 ],
+        [' ',' ',' ',' ',' ', 1 ,' ',' ',' '],
+        [' ',' ',' ', 6 , 3 ,' ',' ',' ',' '],
+        [ 2 , 6 ,' ',' ',' ',' ',' ',' ', 5 ],
+        [' ', 9 , 8 , 5 ,' ',' ',' ',' ', 4 ],
+        [ 6 , 8 ,' ',' ',' ',' ', 4 ,' ',' '],
+        [ 1 , 2 ,' ',' ',' ',' ', 7 , 8 ,' '],
+        [' ',' ',' ',' ',' ',' ',' ',' ',' ']
+    ]
+    
+    for x in range(9):
+        for y in range(9):
+            puzzle.squares[x][y]['value'] = matrix[x][y]
+
+    
+    assert puzzle.is_solved() == False
+    puzzle = instance.solve_puzzle(puzzle)
+    assert puzzle.is_solved() == True
+
+def test_analysis_method():
+    puzzle = SudokuPuzzle()
+    instance = SudokuSolver()
+    
+    # This is the same Matrix from sudoku-puzzle4.txt with two values filled in
+    matrix = [
+        [' ', 1 ,' ',' ',' ', 4 , 3 ,' ',' '],
+        [' ', 7 , 5 , 3 , 9 , 8 ,' ',' ', 2 ],
+        [' ',' ',' ',' ',' ', 1 ,' ',' ',' '],
+        [' ',' ',' ', 6 , 3 ,' ',' ',' ',' '],
+        [ 2 , 6 ,' ',' ',' ',' ',' ',' ', 5 ],
+        [' ', 9 , 8 , 5 ,' ',' ',' ',' ', 4 ],
+        [ 6 , 8 ,' ',' ',' ',' ', 4 ,' ',' '],
+        [ 1 , 2 ,' ',' ',' ',' ', 7 , 8 ,' '],
+        [' ',' ',' ',' ',' ',' ',' ',' ',' ']
+    ]
+    
+    for x in range(9):
+        for y in range(9):
+            puzzle.squares[x][y]['value'] = matrix[x][y]
+
+    assert puzzle.is_solved() == False
+    
+    instance.populate_possible_values(puzzle)
+    puzzle, change_made = instance.perform_analysis(puzzle, 7, 4)
+    assert change_made == True
+    
+    instance.promote_solved_squares(puzzle)
+    assert puzzle.squares[7][4]['value'] == 4
+    
+    puzzle = instance.solve_puzzle(puzzle)
+    assert puzzle.is_solved() == True
+
 def test_load_function():
     puzzle = SudokuPuzzle()
     instance = SudokuSolver()
     
     puzzle = instance.load_puzzle("SudokuPuzzles\\sudoku-puzzle1.txt")
     
-    #This is the same Matrix from sudoku-puzzle1.txt    
+    # This is the same Matrix from sudoku-puzzle1.txt    
     matrix = [
         [' ',' ', 2 , 7 ,' ',' ', 1 , 5 , 6 ],
         [' ', 3 ,' ', 6 , 2 , 8 ,' ', 4 ,' '],

@@ -43,7 +43,7 @@ class SudokuSolver:
             
             # Do more complex elimination if the easy options have been removed.
             if changesd_squares == 0:
-                self.perform_analysis(puzzle)
+                self.analyze_squares(puzzle)
                 changesd_squares = self.promote_solved_squares(puzzle)
 
         if not puzzle.is_solved():
@@ -94,6 +94,7 @@ class SudokuSolver:
                     puzzle.squares[x][y]['possible_values'] = []
 
     def prune_possibilities(self, puzzle):
+        # checks for values that only occur once in a line or in a 3 x 3 box
         for x in range(9):
             for y in range(9):
                 found_axis_requirement = False
@@ -142,172 +143,180 @@ class SudokuSolver:
                                     found_box_requirement = True
                                     puzzle.squares[x][y]['possible_values'] = [possible_value]
 
-    def perform_analysis(self, puzzle):
-        # There is another case I can check here for solving the puzzle.
-        # I need to check if values for a cell must appear in other cells aligned with the cell on the x asxis and the yaxis. If so, I can prune the list of possibilities
-        # Specifically, the use case of two values must appear in two specific cells on any axis.
-        # I could also look at this for three cells in a box one the axises.
+
+    def analyze_squares(self, puzzle):
         for number_of_options in range(2, 9):
             for x in range(9):
                 for y in range(9):
                     if puzzle.squares[x][y]['value'] == " " and len(puzzle.squares[x][y]['possible_values']) == number_of_options:
-                        for possible_value in puzzle.squares[x][y]['possible_values']:
-                            other_possible_values = copy.deepcopy(puzzle.squares[x][y]['possible_values'])
-                            other_possible_values.remove(possible_value)
-                            
-                            # Let's get some ranges for a vertical slice
-                            if 0 <= x <= 2:
-                                xaxis_of_boxes = [0, 1, 2]
-                            elif 3 <= x <= 5:
-                                xaxis_of_boxes = [3, 4, 5]
-                            else:
-                                xaxis_of_boxes = [6, 7, 8]
-                            
-                            if 0 <= y <= 2:
-                                yaxis_of_box_1 = [3, 4, 5]
-                                yaxis_of_box_2 = [6, 7, 8]
-                            elif 3 <= y <= 5:
-                                yaxis_of_box_1 = [0, 1, 2]
-                                yaxis_of_box_2 = [6, 7, 8]
-                            else:
-                                yaxis_of_box_1 = [0, 1, 2]
-                                yaxis_of_box_2 = [3, 4, 5]
-                            
-                             # Vertical Box 1
-                            found_possible_value_not_in_line = False
-                            for xaxis1 in xaxis_of_boxes:
-                                for yaxis1 in yaxis_of_box_1:
-                                    for value in other_possible_values: 
-                                        if yaxis1 != y:
-                                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
-                                                found_possible_value_not_in_line = True
-                        
-                            if not found_possible_value_not_in_line:
-                                for yaxis2 in yaxis_of_box_1:
-                                    check_tracker = {}
-                                    for value2 in other_possible_values:
-                                        check_tracker[value2] = False
-                                    
-                                    for value in other_possible_values: 
-                                        if value in puzzle.squares[x][yaxis2]['possible_values']:
-                                            check_tracker[value] = True
-                                
-                                everything_in_list = True
-                                for value2 in check_tracker:
-                                    if check_tracker[value2] == False:
-                                        everything_in_list = False
-                                
-                                if everything_in_list:
-                                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                                    puzzle.analysis_helped = True
-                                    return puzzle
-                                
-                            # Vertiocal Box 2
-                            found_possible_value_not_in_line = False
-                            for xaxis1 in xaxis_of_boxes:
-                                for yaxis1 in yaxis_of_box_2:
-                                    for value in other_possible_values: 
-                                        if yaxis1 != y:
-                                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
-                                                found_possible_value_not_in_line = True
-                            
-                            if not found_possible_value_not_in_line:
-                                for yaxis2 in yaxis_of_box_2:
-                                    check_tracker = {}
-                                    for value2 in other_possible_values:
-                                        check_tracker[value2] = False
-                                    
-                                    for value in other_possible_values: 
-                                        if value in puzzle.squares[x][yaxis2]['possible_values']:
-                                            check_tracker[value] = True
-                                
-                                everything_in_list = True
-                                for value2 in check_tracker:
-                                    if check_tracker[value2] == False:
-                                        everything_in_list = False
-                                
-                                if everything_in_list:
-                                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                                    puzzle.analysis_helped = True
-                                    return puzzle
-                            
-                            # Let's get some ranges for a horizontial slice
-                            if 0 <= x <= 2:
-                                xaxis_of_box_1 = [3, 4, 5]
-                                xaxis_of_box_2 = [6, 7, 8]
-                            elif 3 <= x <= 5:
-                                xaxis_of_box_1 = [0, 1, 2]
-                                xaxis_of_box_2 = [6, 7, 8]
-                            else:
-                                xaxis_of_box_1 = [0, 1, 2]
-                                xaxis_of_box_2 = [3, 4, 5]
-                            
-                            if 0 <= y <= 2:
-                                yaxis_of_boxes = [0, 1, 2]
-                            elif 3 <= y <= 5:
-                                yaxis_of_boxes = [3, 4, 5]
-                            else:
-                                yaxis_of_boxes = [6, 7, 8]
-                            
-                            # Horizontal Box 1
-                            found_possible_value_not_in_line = False
-                            for xaxis1 in xaxis_of_box_1:
-                                for yaxis1 in yaxis_of_boxes:
-                                    for value in other_possible_values: 
-                                        if yaxis1 != y:
-                                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
-                                                found_possible_value_not_in_line = True
-                        
-                            if not found_possible_value_not_in_line:
-                                for xaxis2 in xaxis_of_box_1:
-                                    check_tracker = {}
-                                    for value2 in other_possible_values:
-                                        check_tracker[value2] = False
-                                    
-                                    for value in other_possible_values: 
-                                        if value in puzzle.squares[xaxis2][y]['possible_values']:
-                                            check_tracker[value] = True
-                                
-                                everything_in_list = True
-                                for value2 in check_tracker:
-                                    if check_tracker[value2] == False:
-                                        everything_in_list = False
-                                
-                                if everything_in_list:
-                                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                                    puzzle.analysis_helped = True
-                                    return puzzle
-
-                            # Horizontal Box 2
-                            found_possible_value_not_in_line = False
-                            for xaxis1 in xaxis_of_box_2:
-                                for yaxis1 in yaxis_of_boxes:
-                                    for value in other_possible_values: 
-                                        if yaxis1 != y:
-                                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
-                                                found_possible_value_not_in_line = True
-                            
-                            if not found_possible_value_not_in_line:
-                                for xaxis2 in xaxis_of_box_2:
-                                    check_tracker = {}
-                                    for value2 in other_possible_values:
-                                        check_tracker[value2] = False
-                                    
-                                    for value in other_possible_values: 
-                                        if value in puzzle.squares[xaxis2][y]['possible_values']:
-                                            check_tracker[value] = True
-                                
-                                everything_in_list = True
-                                for value2 in check_tracker:
-                                    if check_tracker[value2] == False:
-                                        everything_in_list = False
-                                
-                                if everything_in_list:
-                                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                                    puzzle.analysis_helped = True
-                                    return puzzle
-
+                        puzzle, change_made = self.perform_analysis(puzzle, x, y)
+                        if (change_made):
+                            return puzzle
+    
         return puzzle
+
+    def perform_analysis(self, puzzle, x, y):
+        # There is another case I can check here for solving the puzzle.
+        # I need to check if values for a cell must appear in other cells aligned with the cell on the x asxis and the yaxis. If so, I can prune the list of possibilities
+        # Specifically, the use case of two values must appear in two specific cells on any axis.
+        # I could also look at this for three cells in a box one the axises.
+        for possible_value in puzzle.squares[x][y]['possible_values']:
+            other_possible_values = copy.deepcopy(puzzle.squares[x][y]['possible_values'])
+            other_possible_values.remove(possible_value)
+            
+            # Let's get some ranges for a vertical slice
+            if 0 <= x <= 2:
+                xaxis_of_boxes = [0, 1, 2]
+            elif 3 <= x <= 5:
+                xaxis_of_boxes = [3, 4, 5]
+            else:
+                xaxis_of_boxes = [6, 7, 8]
+            
+            if 0 <= y <= 2:
+                yaxis_of_box_1 = [3, 4, 5]
+                yaxis_of_box_2 = [6, 7, 8]
+            elif 3 <= y <= 5:
+                yaxis_of_box_1 = [0, 1, 2]
+                yaxis_of_box_2 = [6, 7, 8]
+            else:
+                yaxis_of_box_1 = [0, 1, 2]
+                yaxis_of_box_2 = [3, 4, 5]
+            
+                # Vertical Box 1
+            found_possible_value_not_in_line = False
+            for xaxis1 in xaxis_of_boxes:
+                for yaxis1 in yaxis_of_box_1:
+                    for value in other_possible_values: 
+                        if yaxis1 != y:
+                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
+                                found_possible_value_not_in_line = True
+
+            if not found_possible_value_not_in_line:
+                for yaxis2 in yaxis_of_box_1:
+                    check_tracker = {}
+                    for value2 in other_possible_values:
+                        check_tracker[value2] = False
+                    
+                    for value in other_possible_values: 
+                        if value in puzzle.squares[x][yaxis2]['possible_values']:
+                            check_tracker[value] = True
+                
+                everything_in_list = True
+                for value2 in check_tracker:
+                    if check_tracker[value2] == False:
+                        everything_in_list = False
+                
+                if everything_in_list:
+                    puzzle.squares[x][y]['possible_values'] = [possible_value]
+                    puzzle.analysis_helped = True
+                    return puzzle, True
+                
+            # Vertiocal Box 2
+            found_possible_value_not_in_line = False
+            for xaxis1 in xaxis_of_boxes:
+                for yaxis1 in yaxis_of_box_2:
+                    for value in other_possible_values: 
+                        if yaxis1 != y:
+                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
+                                found_possible_value_not_in_line = True
+            
+            if not found_possible_value_not_in_line:
+                for yaxis2 in yaxis_of_box_2:
+                    check_tracker = {}
+                    for value2 in other_possible_values:
+                        check_tracker[value2] = False
+                    
+                    for value in other_possible_values: 
+                        if value in puzzle.squares[x][yaxis2]['possible_values']:
+                            check_tracker[value] = True
+                
+                everything_in_list = True
+                for value2 in check_tracker:
+                    if check_tracker[value2] == False:
+                        everything_in_list = False
+                
+                if everything_in_list:
+                    puzzle.squares[x][y]['possible_values'] = [possible_value]
+                    puzzle.analysis_helped = True
+                    return puzzle, True
+            
+            # Let's get some ranges for a horizontial slice
+            if 0 <= x <= 2:
+                xaxis_of_box_1 = [3, 4, 5]
+                xaxis_of_box_2 = [6, 7, 8]
+            elif 3 <= x <= 5:
+                xaxis_of_box_1 = [0, 1, 2]
+                xaxis_of_box_2 = [6, 7, 8]
+            else:
+                xaxis_of_box_1 = [0, 1, 2]
+                xaxis_of_box_2 = [3, 4, 5]
+            
+            if 0 <= y <= 2:
+                yaxis_of_boxes = [0, 1, 2]
+            elif 3 <= y <= 5:
+                yaxis_of_boxes = [3, 4, 5]
+            else:
+                yaxis_of_boxes = [6, 7, 8]
+            
+            # Horizontal Box 1
+            found_possible_value_not_in_line = False
+            for xaxis1 in xaxis_of_box_1:
+                for yaxis1 in yaxis_of_boxes:
+                    for value in other_possible_values: 
+                        if yaxis1 != y:
+                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
+                                found_possible_value_not_in_line = True
+
+            if not found_possible_value_not_in_line:
+                for xaxis2 in xaxis_of_box_1:
+                    check_tracker = {}
+                    for value2 in other_possible_values:
+                        check_tracker[value2] = False
+                    
+                    for value in other_possible_values: 
+                        if value in puzzle.squares[xaxis2][y]['possible_values']:
+                            check_tracker[value] = True
+                
+                everything_in_list = True
+                for value2 in check_tracker:
+                    if check_tracker[value2] == False:
+                        everything_in_list = False
+                
+                if everything_in_list:
+                    puzzle.squares[x][y]['possible_values'] = [possible_value]
+                    puzzle.analysis_helped = True
+                    return puzzle, True
+
+            # Horizontal Box 2
+            found_possible_value_not_in_line = False
+            for xaxis1 in xaxis_of_box_2:
+                for yaxis1 in yaxis_of_boxes:
+                    for value in other_possible_values: 
+                        if yaxis1 != y:
+                            if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
+                                found_possible_value_not_in_line = True
+            
+            if not found_possible_value_not_in_line:
+                for xaxis2 in xaxis_of_box_2:
+                    check_tracker = {}
+                    for value2 in other_possible_values:
+                        check_tracker[value2] = False
+                    
+                    for value in other_possible_values: 
+                        if value in puzzle.squares[xaxis2][y]['possible_values']:
+                            check_tracker[value] = True
+                
+                everything_in_list = True
+                for value2 in check_tracker:
+                    if check_tracker[value2] == False:
+                        everything_in_list = False
+                
+                if everything_in_list:
+                    puzzle.squares[x][y]['possible_values'] = [possible_value]
+                    puzzle.analysis_helped = True
+                    return puzzle, True
+        
+        return puzzle, False
 
     def guess_a_value(self, puzzle):
         # Check if value must appear in the row for possibilities.
