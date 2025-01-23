@@ -10,7 +10,13 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            //I'm still learning here, but I need to set this up to only pass this to Sudoku.py
+        },
+        {
+            "name": "Python Debugger: Sudoku",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "Sudoku.py",
+            "console": "integratedTerminal",
             "args": "-file .\\SudokuPuzzles\\sudoku-puzzle6.txt"
         }
     ]

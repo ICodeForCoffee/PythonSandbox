@@ -148,54 +148,39 @@ class SudokuSolver:
         # Specifically, the use case of two values must appear in two specific cells on any axis.
         # I could also look at this for three cells in a box one the axises.
         return
+        change_made = False
         for x in range(9):
             for y in range(9):
+                # change_made = False
+                
                 if puzzle.squares[x][y]['value'] == " " and len(puzzle.squares[x][y]['possible_values']) > 1:
                     for possible_value in puzzle.squares[x][y]['possible_values']:
-                        other_possible_values = copy.deepcopy(puzzle.squares[x][y]['possible_values'])
-                        other_possible_values.remove(int(possible_value))
-                        # Let's get some ranges
-                        if 0 <= x <= 2:
-                            xaxis_of_box_1 = [3, 4, 5]
-                            xaxis_of_box_2 = [6, 7, 8]
-                        elif 3 <= x <= 5:
-                            xaxis_of_box_1 = [0, 1, 2]
-                            xaxis_of_box_2 = [6, 7, 8]
-                        else:
-                            xaxis_of_box_1 = [0, 1, 2]
-                            xaxis_of_box_2 = [3, 4, 5]
-                        pass
-                        xaxis_in_line = xaxis_of_box_1 + xaxis_of_box_2
-                        
-                        if 0 <= y <= 2:
-                            yaxis_of_boxes = [0, 1, 2]
-                        elif 3 <= y <= 5:
-                            yaxis_of_boxes = [3, 4, 5]
-                        else:
-                            yaxis_of_boxes = [6, 7, 8]
-                        
-                        # Box 1
-                        found_possible_value_not_in_line = False
-                        for xaxis1 in xaxis_of_box_1:
-                            for yaxis1 in yaxis_of_boxes:
-                                for value in other_possible_values: 
-                                    if yaxis1 != y:
-                                        if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
-                                            found_possible_value_not_in_line = True
-                       
-                        other_possible_values_not_in_line = False
-                        if not found_possible_value_not_in_line:
-                            for xaxis2 in xaxis_of_box_1:
-                                for value in other_possible_values: 
-                                    if value not in puzzle.squares[xaxis1][y]['possible_values']:
-                                        other_possible_values_not_in_line = True
-                        
-                        if found_possible_value_not_in_line and not other_possible_values_not_in_line:
-                            puzzle.squares[x][y]['possible_values'] = possible_value
-                        else:
-                            # Box 2
+                        if not change_made:
+                            other_possible_values = copy.deepcopy(puzzle.squares[x][y]['possible_values'])
+                            other_possible_values.remove(possible_value)
+                            # Let's get some ranges
+                            if 0 <= x <= 2:
+                                xaxis_of_box_1 = [3, 4, 5]
+                                xaxis_of_box_2 = [6, 7, 8]
+                            elif 3 <= x <= 5:
+                                xaxis_of_box_1 = [0, 1, 2]
+                                xaxis_of_box_2 = [6, 7, 8]
+                            else:
+                                xaxis_of_box_1 = [0, 1, 2]
+                                xaxis_of_box_2 = [3, 4, 5]
+                            pass
+                            xaxis_in_line = xaxis_of_box_1 + xaxis_of_box_2
+                            
+                            if 0 <= y <= 2:
+                                yaxis_of_boxes = [0, 1, 2]
+                            elif 3 <= y <= 5:
+                                yaxis_of_boxes = [3, 4, 5]
+                            else:
+                                yaxis_of_boxes = [6, 7, 8]
+                            
+                            # Box 1
                             found_possible_value_not_in_line = False
-                            for xaxis1 in xaxis_of_box_2:
+                            for xaxis1 in xaxis_of_box_1:
                                 for yaxis1 in yaxis_of_boxes:
                                     for value in other_possible_values: 
                                         if yaxis1 != y:
@@ -204,13 +189,34 @@ class SudokuSolver:
                         
                             other_possible_values_not_in_line = False
                             if not found_possible_value_not_in_line:
-                                for xaxis2 in xaxis_of_box_2:
+                                for xaxis2 in xaxis_of_box_1:
                                     for value in other_possible_values: 
                                         if value not in puzzle.squares[xaxis1][y]['possible_values']:
                                             other_possible_values_not_in_line = True
-                                            
+                            
                             if found_possible_value_not_in_line and not other_possible_values_not_in_line:
                                 puzzle.squares[x][y]['possible_values'] = [possible_value]
+                                change_made = True
+                            else:
+                                # Box 2
+                                found_possible_value_not_in_line = False
+                                for xaxis1 in xaxis_of_box_2:
+                                    for yaxis1 in yaxis_of_boxes:
+                                        for value in other_possible_values: 
+                                            if yaxis1 != y:
+                                                if value in puzzle.squares[xaxis1][yaxis1]['possible_values']:
+                                                    found_possible_value_not_in_line = True
+                            
+                                other_possible_values_not_in_line = False
+                                if not found_possible_value_not_in_line:
+                                    for xaxis2 in xaxis_of_box_2:
+                                        for value in other_possible_values: 
+                                            if value not in puzzle.squares[xaxis1][y]['possible_values']:
+                                                other_possible_values_not_in_line = True
+                                                
+                                if found_possible_value_not_in_line and not other_possible_values_not_in_line:
+                                    puzzle.squares[x][y]['possible_values'] = [possible_value]
+                                    change_made = True
                         
         return puzzle
 
