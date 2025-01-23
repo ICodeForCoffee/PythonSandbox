@@ -146,7 +146,10 @@ def test_analysis_method():
 
     assert puzzle.is_solved() == False
     
+    # Check that analysis calculates the value at 7, 4
     instance.populate_possible_values(puzzle)
+    assert puzzle.squares[7][4]['value'] == ' '
+    assert len(puzzle.squares[7][4]['possible_values']) == 3
     puzzle, change_made = instance.perform_analysis(puzzle, 7, 4)
     assert change_made == True
     
