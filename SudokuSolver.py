@@ -199,6 +199,7 @@ class SudokuSolver:
                                 
                                 if everything_in_list:
                                     puzzle.squares[x][y]['possible_values'] = [possible_value]
+                                    puzzle.analysis_helped = True
                                     return puzzle
                                 
                             # Vertiocal Box 2
@@ -227,6 +228,7 @@ class SudokuSolver:
                                 
                                 if everything_in_list:
                                     puzzle.squares[x][y]['possible_values'] = [possible_value]
+                                    puzzle.analysis_helped = True
                                     return puzzle
                             
                             # Let's get some ranges for a horizontial slice
@@ -273,6 +275,7 @@ class SudokuSolver:
                                 
                                 if everything_in_list:
                                     puzzle.squares[x][y]['possible_values'] = [possible_value]
+                                    puzzle.analysis_helped = True
                                     return puzzle
 
                             # Horizontal Box 2
@@ -301,6 +304,7 @@ class SudokuSolver:
                                 
                                 if everything_in_list:
                                     puzzle.squares[x][y]['possible_values'] = [possible_value]
+                                    puzzle.analysis_helped = True
                                     return puzzle
 
         return puzzle
