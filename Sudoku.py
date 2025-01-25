@@ -15,10 +15,11 @@ def main():
     print("After attempting to solve\n")
     instance.display_puzzle(puzzle)
     print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
-    if puzzle.guessing_used == True:
-        print(f"Guessing was used to calculate this result")
-    if puzzle.analysis_helped == True:
-        print("The analysis method helped")
+    if __debug__:
+        if puzzle.guessing_used == True:
+            print(f"Guessing was used to calculate this result")
+        if puzzle.analysis_helped == True:
+            print("The analysis method helped")
     print()
 
 main()
