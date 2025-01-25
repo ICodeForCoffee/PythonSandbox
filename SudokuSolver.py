@@ -182,7 +182,7 @@ class SudokuSolver:
                 yaxis_of_box_1 = [0, 1, 2]
                 yaxis_of_box_2 = [3, 4, 5]
             
-                # Vertical Box 1
+            # Vertical Box 1
             found_possible_value_not_in_line = False
             for xaxis1 in xaxis_of_boxes:
                 for yaxis1 in yaxis_of_box_1:
