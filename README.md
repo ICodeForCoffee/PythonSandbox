@@ -65,7 +65,7 @@ This application includes unit tests in
 
 Puzzles for the application are [located in a folder](https://github.com/ICodeForCoffee/PythonSandbox/tree/main/SudokuPuzzles).
 
-To call the application use `python sudoku.py -file PUZZLE_TO_TEST`. Debugging messages can be be turned off with `-O`.
+To call the application use `python sudoku.py -file PUZZLE_TO_TEST`. Debugging messages can be turned off with `-O`.
 
 ## VectorizationVsLoops.py - Vectorization vs Loops
 
