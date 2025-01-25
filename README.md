@@ -65,6 +65,8 @@ This application includes unit tests in
 
 Puzzles for the application are [located in a folder](https://github.com/ICodeForCoffee/PythonSandbox/tree/main/SudokuPuzzles).
 
+To call the application use `python sudoku.py -file PUZZLE_TO_TEST`. Debugging messages can be be turned off with `-O`.
+
 ## VectorizationVsLoops.py - Vectorization vs Loops
 
 A file that explores the difference between array vectorization and using a for loop to populate values into an array. For some reason the first time you run vectorization it's a little slow compared to when the technique is called again.
