@@ -150,7 +150,7 @@ def test_analysis_method():
     instance.populate_possible_values(puzzle)
     assert puzzle.squares[7][4]['value'] == ' '
     assert len(puzzle.squares[7][4]['possible_values']) == 3
-    puzzle, change_made = instance.perform_analysis(puzzle, 7, 4)
+    change_made = instance.perform_analysis(puzzle, 7, 4)
     assert change_made == True
     
     instance.promote_solved_squares(puzzle)

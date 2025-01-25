@@ -149,7 +149,7 @@ class SudokuSolver:
             for x in range(9):
                 for y in range(9):
                     if puzzle.squares[x][y]['value'] == " " and len(puzzle.squares[x][y]['possible_values']) == number_of_options:
-                        puzzle, change_made = self.perform_analysis(puzzle, x, y)
+                        change_made = self.perform_analysis(puzzle, x, y)
                         if (change_made):
                             return puzzle
     
@@ -207,9 +207,8 @@ class SudokuSolver:
                         everything_in_list = False
                 
                 if everything_in_list:
-                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                    puzzle.analysis_helped = True
-                    return puzzle, True
+                    self.perform_analysis_set_value(puzzle, x, y, possible_value)
+                    return True
                 
             # Vertiocal Box 2
             found_possible_value_not_in_line = False
@@ -236,9 +235,8 @@ class SudokuSolver:
                         everything_in_list = False
                 
                 if everything_in_list:
-                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                    puzzle.analysis_helped = True
-                    return puzzle, True
+                    self.perform_analysis_set_value(puzzle, x, y, possible_value)
+                    return True
             
             # Let's get some ranges for a horizontial slice
             if 0 <= x <= 2:
@@ -283,9 +281,8 @@ class SudokuSolver:
                         everything_in_list = False
                 
                 if everything_in_list:
-                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                    puzzle.analysis_helped = True
-                    return puzzle, True
+                    self.perform_analysis_set_value(puzzle, x, y, possible_value)
+                    return True
 
             # Horizontal Box 2
             found_possible_value_not_in_line = False
@@ -312,26 +309,33 @@ class SudokuSolver:
                         everything_in_list = False
                 
                 if everything_in_list:
-                    puzzle.squares[x][y]['possible_values'] = [possible_value]
-                    puzzle.analysis_helped = True
-                    return puzzle, True
+                    self.perform_analysis_set_value(puzzle, x, y, possible_value)
+                    return True
         
-        return puzzle, False
+        return False
+
+    def perform_analysis_set_value(self, puzzle, x, y, value_to_set):
+        if __debug__:
+            print(f"Analysis calculated the value at [{x}, {y}] to be {value_to_set}") #added for debugging.
+            print()
+            self.display_puzzle(puzzle)
+        
+        puzzle.squares[x][y]['possible_values'] = [value_to_set]
+        puzzle.analysis_helped = True
 
     def guess_a_value(self, puzzle):
-        # Check if value must appear in the row for possibilities.
-        # Or for the moment we'll cheat
         puzzle.guessing_used = True
         unmodified_puzzle = copy.deepcopy(puzzle)
 
         x, y = self.pick_a_square_to_guess(unmodified_puzzle)
 
         for possible_value in unmodified_puzzle.squares[x][y]['possible_values']:
-            #print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
-            #print()
+            if __debug__:
+                print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
+                print()
+                self.display_puzzle(unmodified_puzzle)
+                
             puzzle2 = copy.deepcopy(unmodified_puzzle)
-
-            #display_puzzle(puzzle2)
 
             puzzle2.squares[x][y]['value'] = possible_value
             self.populate_possible_values(puzzle2)
