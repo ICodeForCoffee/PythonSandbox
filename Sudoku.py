@@ -20,8 +20,6 @@ def main():
     print("After attempting to solve\n")
     instance.display_puzzle(puzzle)
     
-    
-    
     print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
     if __debug__:
         print()
