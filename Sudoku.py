@@ -22,7 +22,8 @@ def main():
     
     print(f"This puzzle is {"solved" if puzzle.is_solved() == True else "unsolved"}")
     if __debug__:
-        print()
+        if puzzle.guessing_used == True or puzzle.analysis_helped == True:
+            print()
         if puzzle.guessing_used == True:
             print(f"Guessing was used to calculate this result")
         if puzzle.analysis_helped == True:
