@@ -48,7 +48,7 @@ def test_simple_solving():
     puzzle = SudokuPuzzle()
     instance = SudokuSolver()
     
-    #This is the same Matrix from sudoku-puzzle1.txt    
+    #This is the same Matrix from sudoku-puzzle1.txt
     matrix = [
         [' ',' ', 2 , 7 ,' ',' ', 1 , 5 , 6 ],
         [' ', 3 ,' ', 6 , 2 , 8 ,' ', 4 ,' '],
@@ -103,7 +103,7 @@ def test_complex_solving_two():
     
     # This is the same Matrix from sudoku-puzzle4.txt with two values filled in
     matrix = [
-        [' ', ' ',' ',' ',' ', 4 , 3 ,' ',' '],
+        [' ',' ',' ',' ',' ', 4 , 3 ,' ',' '],
         [' ', 7 , 5 ,' ', 9 , 8 ,' ',' ', 2 ],
         [' ',' ',' ',' ',' ', 1 ,' ',' ',' '],
         [' ',' ',' ', 6 , 3 ,' ',' ',' ',' '],
@@ -165,7 +165,7 @@ def test_load_function():
     
     puzzle = instance.load_puzzle("SudokuPuzzles\\sudoku-puzzle1.txt")
     
-    # This is the same Matrix from sudoku-puzzle1.txt    
+    # This is the same Matrix from sudoku-puzzle1.txt
     matrix = [
         [' ',' ', 2 , 7 ,' ',' ', 1 , 5 , 6 ],
         [' ', 3 ,' ', 6 , 2 , 8 ,' ', 4 ,' '],
