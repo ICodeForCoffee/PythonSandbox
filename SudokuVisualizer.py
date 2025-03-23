@@ -8,7 +8,7 @@ import copy
 STYLE = """
 <style>
 .possibleValuesCell {
-    border: 1px dotted gray;
+    outline: 1px dotted gray;
     width: 33.33%;
     height: 33.33%;
     text-align: center;
@@ -16,6 +16,7 @@ STYLE = """
 
 .puzzleCell {
     border: 1px solid black;
+    padding: 0x;
 }
 
 .puzzleCell {
@@ -28,14 +29,19 @@ STYLE = """
     height: 100%;
 }
 
+.valueCellContainer {
+    width: 100%;
+    height: 100%;
+}
+
 .valueCell {
     text-align: center;
-    font: 20px;
+    font-size: 50px;
+    width: 100%;
+    height: 100%;
 }
 
 .initialValueCell {
-    text-align: center;
-    font: 20px;
     background-color: gray;
 }
 
@@ -61,6 +67,14 @@ STYLE = """
     border-bottom: 3px solid black;
 }
 </style>
+"""
+
+FOUND_CELL = """
+<table class="valueCellContainer">
+    <tr>
+        <td class="valueCell">xyz</td>
+    </tr>
+</table>
 """
 
 POSSIBLE_VALUES = """
@@ -199,6 +213,29 @@ def generate_possible_values_code(possible_values):
     
     return body_new
 
+def generate_sudoku_render():
+    sudoku_rendering = copy.deepcopy(SUDOKU_CONTAINER)
+    
+    for x in range(9):
+        for y in range(9):
+            cell = "z" + str(x) + str(y)
+            
+            html_fragment = ""
+            if x == 0 and y == 0:
+                possible_values = [1, 5]
+    
+                html_fragment = generate_possible_values_code(possible_values)
+            elif x ==1 and y == 2:
+                found_value = 3
+                found_cell = copy.deepcopy(FOUND_CELL)
+                html_fragment = found_cell.replace("xyz", str(found_value))
+                
+                
+            sudoku_rendering = sudoku_rendering.replace(cell, html_fragment)
+    
+    #not sure yet if this method will render or just generate the code
+    ui.html(sudoku_rendering)
+
 #this method will have to go at some point if this is to be unit tested.
 def main():
     app.native.window_args['resizable'] = False
@@ -208,17 +245,7 @@ def main():
     ui.html(STYLE)
     ui.label('Hello NiceGUI!')
     
-    sudoku_rendering = copy.deepcopy(SUDOKU_CONTAINER)
-    
-    for x in range(9):
-        for y in range(9):
-            cell = "z" + str(x) + str(y)
-            possible_values = [1, 5]
-    
-            html_fragment = generate_possible_values_code(possible_values)
-            sudoku_rendering = sudoku_rendering.replace(cell, html_fragment)
-    
-    ui.html(sudoku_rendering)
+    generate_sudoku_render()
     
     ui.button('Solve Puzzle', on_click=lambda: ui.notify('button was pressed'))
     #ui.table()
