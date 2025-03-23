@@ -1,5 +1,3 @@
-#import webbrowser
-#import atlastk
 from nicegui import app, ui
 from SudokuPuzzle import SudokuPuzzle
 import copy
@@ -201,56 +199,59 @@ SUDOKU_CONTAINER = """
 </table>
 """
 
-def generate_possible_values_code(possible_values):
-    body_new = copy.deepcopy(POSSIBLE_VALUES)
-    
-    for x in range(1,10):
-        cell = "x" + str(x)
-        if x in possible_values:
-            body_new = body_new.replace(cell, str(x))
-        else:
-            body_new = body_new.replace(cell, "&nbsp;")
-    
-    return body_new
+class SudokuVisualizer:
+    def __init__(self):
+        #ToDo Should all the HTML and styling be declared in init?
+        pass
 
-def generate_sudoku_render():
-    sudoku_rendering = copy.deepcopy(SUDOKU_CONTAINER)
-    
-    for x in range(9):
-        for y in range(9):
-            cell = "z" + str(x) + str(y)
-            
-            html_fragment = ""
-            if x == 0 and y == 0:
-                possible_values = [1, 5]
-    
-                html_fragment = generate_possible_values_code(possible_values)
-            elif x ==1 and y == 2:
-                found_value = 3
-                found_cell = copy.deepcopy(FOUND_CELL)
-                html_fragment = found_cell.replace("xyz", str(found_value))
+    def generate_possible_values_html(self, possible_values):
+        body_new = copy.deepcopy(POSSIBLE_VALUES)
+        
+        for x in range(1,10):
+            cell = "x" + str(x)
+            if x in possible_values:
+                body_new = body_new.replace(cell, str(x))
+            else:
+                body_new = body_new.replace(cell, "&nbsp;")
+        
+        return body_new
+
+    def generate_sudoku_render(self, puzzle):
+        sudoku_rendering = copy.deepcopy(SUDOKU_CONTAINER)
+        
+        for x in range(9):
+            for y in range(9):
+                cell = "z" + str(x) + str(y)
                 
-                
-            sudoku_rendering = sudoku_rendering.replace(cell, html_fragment)
-    
-    #not sure yet if this method will render or just generate the code
-    ui.html(sudoku_rendering)
+                html_fragment = ""
+                if puzzle.squares[x][y]['value'] == " ":
+                    possible_values = puzzle.squares[x][y]['possible_values']
+        
+                    html_fragment = self.generate_possible_values_html(possible_values)
+                else:
+                    found_value = puzzle.squares[x][y]['value']
+                    found_cell = copy.deepcopy(FOUND_CELL)
+                    html_fragment = found_cell.replace("xyz", str(found_value))
+                    
+                    
+                sudoku_rendering = sudoku_rendering.replace(cell, html_fragment)
+        
+        #not sure yet if this method will render or just generate the code
+        ui.html(sudoku_rendering)
 
-#this method will have to go at some point if this is to be unit tested.
-def main():
-    app.native.window_args['resizable'] = False
-    app.native.start_args['debug'] = True
-    app.native.settings['ALLOW_DOWNLOADS'] = True
-    
-    ui.html(STYLE)
-    ui.label('Hello NiceGUI!')
-    
-    generate_sudoku_render()
-    
-    ui.button('Solve Puzzle', on_click=lambda: ui.notify('button was pressed'))
-    #ui.table()
-    
-    #ui.run(native=True, window_size=(400, 300), fullscreen=False)
-    ui.run()
-
-main()
+    #this method will have to go at some point if this is to be unit tested.
+    def display_puzzle_to_website(self, puzzle):
+        app.native.window_args['resizable'] = False
+        app.native.start_args['debug'] = True
+        app.native.settings['ALLOW_DOWNLOADS'] = True
+        
+        ui.html(STYLE)
+        ui.label('Hello NiceGUI!')
+        
+        self.generate_sudoku_render(puzzle)
+        
+        ui.button('Solve Puzzle', on_click=lambda: ui.notify('button was pressed'))
+        #ui.table()
+        
+        #ui.run(native=True, window_size=(400, 300), fullscreen=False)
+        ui.run()

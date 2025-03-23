@@ -20,7 +20,7 @@ class SudokuSolver:
 
         return puzzle
 
-    def display_puzzle(self, puzzle):
+    def display_puzzle_to_console(self, puzzle):
         for x in range(9):
             if x == 3 or x == 6:
                 print("--------- --------- ---------")
@@ -318,7 +318,7 @@ class SudokuSolver:
         if __debug__:
             print(f"Analysis calculated the value at [{x}, {y}] to be {value_to_set}") #added for debugging.
             print()
-            self.display_puzzle(puzzle)
+            self.display_puzzle_to_console(puzzle)
         
         puzzle.squares[x][y]['possible_values'] = [value_to_set]
         puzzle.analysis_helped = True
@@ -333,7 +333,7 @@ class SudokuSolver:
             if __debug__:
                 print(f"Guessing a value at [{x}, {y}] with the value {possible_value}") #added for debugging.
                 print()
-                self.display_puzzle(unmodified_puzzle)
+                self.display_puzzle_to_console(unmodified_puzzle)
                 
             puzzle2 = copy.deepcopy(unmodified_puzzle)
 
