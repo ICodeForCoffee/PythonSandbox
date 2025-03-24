@@ -10,14 +10,6 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-        },
-        {
-            "name": "Python Debugger: Sudoku",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "Sudoku.py",
-            "console": "integratedTerminal",
-            "args": "-file .\\SudokuPuzzles\\sudoku-puzzle7.txt"
         }
     ]
 }
